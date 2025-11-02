@@ -18,7 +18,7 @@ login_data=db['logins']
 # ✅ Add CORS middleware so your React frontend can access this API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://gpkp-edvana.netlify.app"],  # You can restrict this to your React app domain
+    allow_origins=["*"],  # You can restrict this to your React app domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
